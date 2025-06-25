@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/imag/atomo.png">
+    <title>Ley de Gravitación Universal | FisicLab</title>
+</head>
+<style>
+  button {
+  background-color: #FFA500;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  display: block;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+  
+</style>
+<body>
+    <div id="header-placeholder"></div>
+
+    <h1 style="text-align: center;"> 🪐Ley de Gravitación Universal 🍎</h1>
+    <section class="texto_teo">
+        <p>
+            La ley de gravitación universal, formulada por Isaac Newton en 1687, establece que todos los cuerpos del universo se atraen mutuamente con una fuerza que es directamente proporcional al producto de sus masas e inversamente proporcional al cuadrado de la distancia entre ellos. Esta ley explica fenómenos como la caída de los objetos hacia la Tierra y el movimiento de los planetas alrededor del Sol.
+        </p>
+        <p>
+            La fórmula matemática que describe esta ley es:
+            <br>
+            F = G * (m1 * m2) / r²
+            <br>
+            Donde:
+            <ul>
+                <li>F es la fuerza de atracción gravitacional entre dos cuerpos.</li>
+                <li>G es la constante de gravitación universal (6.67430 × 10⁻¹¹ N m²/kg²).</li>
+                <li>m1 y m2 son las masas de los dos cuerpos.</li>
+                <li>r es la distancia entre los centros de masa de los dos cuerpos.</li>
+            </ul>
+
+        </p>
+        <p>
+            Esta ley es fundamental para entender el comportamiento de los cuerpos celestes y ha sido confirmada por numerosas observaciones y experimentos a lo largo de los siglos. La gravitación universal no solo explica la órbita de los planetas, sino también fenómenos como las mareas, la formación de galaxias y la estructura del universo.
+        </p>
+        <img src="/imag/gravitacion_gif.gif" alt="Gravitación" style="display: block; margin: 0 auto; width: 60%; max-width: 400px;">
+        <button><a href="Simulaciones/gravitacion.html">Ir a Simulación</a></button>
+
+    <div id="footer-placeholder"></div>
+</body>
+<script>
+    fetch('header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+    fetch('footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+  </script>
+</html>

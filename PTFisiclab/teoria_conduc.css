@@ -1,0 +1,28 @@
+.texto_conductividad{
+  padding: 40px;
+}
+#contenedor {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: justify;
+}
+
+#contenedor > div {
+  width: 50%;
+}
+button {
+  background-color: #FFA500;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
