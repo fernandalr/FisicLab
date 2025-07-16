@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <title>Simulación MRU</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+    font-family: "AR One Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight:400;
+    font-style: normal;
+    font-variation-settings:"ARRR" 10;
+    margin: 2%;
+    text-align: center;
+    background: #ffffff;
+    margin: 0;
+    padding: 20px;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input[type="range"],
+    input[type="number"] {
+      width: 200px;
+    }
+
+    .track {
+      position: relative;
+      width: 90%;
+      height: 10px;
+      background: #ccc;
+      margin: 30px auto;
+      border-radius: 5px;
+    }
+
+    #moto {
+      position: absolute;
+      top: -15px;
+      width: 50px;
+      height: auto;
+      transition: left 0.05s linear;
+    }
+
+    .info, .extra {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #34495e;
+    }
+
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #999;
+      padding: 5px 10px;
+    }
+
+    canvas {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 10px;
+      border: none;
+      background-color: rgb(255, 166, 0);
+      color: white;
+    }
+
+    button:hover {
+      background-color: #e67e22;
+    }
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+  <h1>Simulación del Movimiento Rectilíneo Uniforme (MRU)</h1>
+
+  <div class="controls">
+    <label>Velocidad (m/s):
+      <input type="range" id="velocidad" min="0" max="20" value="5" />
+      <input type="number" id="velNum" min="0" max="20" value="5" />
+    </label>
+
+    <label>Tiempo total (s):
+      <input type="range" id="tiempo" min="1" max="20" value="5" />
+      <input type="number" id="tiempoNum" min="1" max="20" value="5" />
+    </label>
+
+    <label>Posición inicial (m):
+      <input type="range" id="posInicial" min="0" max="100" value="0" />
+      <input type="number" id="posNum" min="0" max="100" value="0" />
+    </label>
+
+    <button onclick="iniciarMovimiento()">Iniciar</button>
+    <button onclick="resetear()">Reiniciar</button>
+  </div>
+
+  <div class="track">
+    <img id="moto" src="/PTFisiclab/imag/motocicleta.png" alt="moto" />
+  </div>
+
+  <div class="info" id="infoResultado"></div>
+
+  <div class="extra">
+    <h3>Tabla de Datos</h3>
+    <table id="tablaDatos">
+      <tr><th>Tiempo (s)</th><th>Posición (m)</th></tr>
+    </table>
+  </div>
+
+  <div>
+    <h3>Gráfica: Posición vs Tiempo</h3>
+    <canvas id="grafica"></canvas>
+  </div>
+<div id="footer-placeholder"></div>
+
+  <script>
+    const moto = document.getElementById('moto');
+    const info = document.getElementById('infoResultado');
+    const tabla = document.getElementById('tablaDatos');
+    const ctx = document.getElementById('grafica').getContext('2d');
+    const trackWidth = document.querySelector('.track').offsetWidth;
+
+    let chart, animId, ultimoSegundo = -1, ultimaActualizacion = null;
+
+    const vel = document.getElementById('velocidad');
+    const velNum = document.getElementById('velNum');
+    const t = document.getElementById('tiempo');
+    const tNum = document.getElementById('tiempoNum');
+    const x0 = document.getElementById('posInicial');
+    const x0Num = document.getElementById('posNum');
+
+    [vel, velNum].forEach(el => el.addEventListener('input', () => {
+      vel.value = velNum.value = el.value;
+    }));
+    [t, tNum].forEach(el => el.addEventListener('input', () => {
+      t.value = tNum.value = el.value;
+    }));
+    [x0, x0Num].forEach(el => el.addEventListener('input', () => {
+      x0.value = x0Num.value = el.value;
+    }));
+
+    function iniciarMovimiento() {
+      const velocidad = parseFloat(vel.value);
+      const tiempoTotal = parseFloat(t.value);
+      const posicionInicial = parseFloat(x0.value);
+      const distanciaMaxima = posicionInicial + velocidad * tiempoTotal;
+      const escala = (trackWidth - 50) / distanciaMaxima; // Ajuste automático de escala
+      const dt = 0.1;
+      let tiempo = 0;
+      let datosTiempo = [], datosPos = [];
+
+      tabla.innerHTML = '<tr><th>Tiempo (s)</th><th>Posición (m)</th></tr>';
+      ultimoSegundo = -1;
+
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Posición (m)',
+            data: [],
+            fill: false,
+            borderColor: 'red',
+            tension: 0.2
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: { title: { display: true, text: 'Tiempo (s)' } },
+            y: { title: { display: true, text: 'Posición (m)' } }
+          }
+        }
+      });
+
+      ultimaActualizacion = null;
+
+      function animar(timestamp) {
+        if (!ultimaActualizacion) ultimaActualizacion = timestamp;
+        const deltaMs = timestamp - ultimaActualizacion;
+
+        if (deltaMs >= 100) { // Hace que se vea más lento visualmente
+          const posicion = posicionInicial + velocidad * tiempo;
+          const px = Math.min(trackWidth - 50, posicion * escala);
+          moto.style.left = px + 'px';
+
+          // Tabla una vez por segundo
+          const segundoActual = Math.floor(tiempo);
+          if (segundoActual !== ultimoSegundo && segundoActual <= tiempoTotal) {
+            const fila = tabla.insertRow();
+            fila.insertCell(0).innerText = segundoActual;
+            fila.insertCell(1).innerText = posicion.toFixed(2);
+            ultimoSegundo = segundoActual;
+          }
+
+          datosTiempo.push(tiempo.toFixed(1));
+          datosPos.push(posicion);
+          chart.data.labels = datosTiempo;
+          chart.data.datasets[0].data = datosPos;
+          chart.update();
+
+          tiempo += dt;
+          ultimaActualizacion = timestamp;
+        }
+
+        if (tiempo <= tiempoTotal) {
+          animId = requestAnimationFrame(animar);
+        } else {
+          info.innerHTML = `Fórmula: x = x₀ + v·t → ${posicionInicial} + ${velocidad}×${tiempoTotal} = <strong>${(posicionInicial + velocidad * tiempoTotal).toFixed(2)} m</strong>`;
+        }
+      }
+
+      requestAnimationFrame(animar);
+    }
+
+    function resetear() {
+      cancelAnimationFrame(animId);
+      moto.style.left = '0px';
+      info.innerHTML = '';
+      tabla.innerHTML = '<tr><th>Tiempo (s)</th><th>Posición (m)</th></tr>';
+      if (chart) chart.destroy();
+      ultimoSegundo = -1;
+    }
+
+    moto.style.left = '0px';
+
+    fetch('header2.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+
+      fetch('footer2.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+  </script>
+</body>
+</html>

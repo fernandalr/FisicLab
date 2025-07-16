@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="/imag/atomo.png">
+    <title>Teoría de Caída Libre</title>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <h1>🍎💨 Caída Libre</h1>
+    <div class="contenido">
+        <p>¿Alguna vez has dejado caer una manzana 🍏 o una pelota 🏀 y te has preguntado por qué siempre caen hacia el suelo? Eso es gracias a la <strong>gravedad</strong> 🌎, una fuerza invisible que atrae todo hacia el centro de la Tierra.</p>
+    <h2>🔍 ¿Qué es la Caída Libre?</h2>
+    <p>La <strong>caída libre</strong> es el movimiento que realiza un objeto cuando solo la gravedad actúa sobre él, es decir, sin que el aire u otras fuerzas lo detengan. ¡Todos los objetos caen igual, sin importar si son grandes o pequeños!</p>
+    <h2>✨ Características de la Caída Libre</h2>
+    <ul>
+        <li>📈 <strong>Aceleración constante:</strong> La gravedad acelera los objetos a <b>9.81 m/s²</b> en la Tierra.</li>
+        <li>⏱️ <strong>Velocidad inicial:</strong> Si soltamos un objeto desde el reposo, su velocidad al principio es <b>cero</b>.</li>
+        <li>⏳ <strong>Tiempo de caída:</strong> Depende de la altura desde la que se suelta el objeto.</li>
+        <li>🧮 <strong>Fórmulas útiles:</strong> 
+            <ul>
+                <li>Distancia: <span style="background:#f0f0f0;">d = ½ · g · t²</span></li>
+                <li>Velocidad final: <span style="background:#f0f0f0;">v = g · t</span></li>
+            </ul>
+        </li>
+    </ul>
+    <h2>📝 Ejemplo Práctico</h2>
+    <p>Imagina que dejas caer una pelota desde una altura de <b>20 metros</b> 🏢. ¿Cuánto tarda en llegar al suelo?</p>
+    <p>Usamos la fórmula: <span style="background:#f0f0f0;">d = ½ · g · t²</span></p>
+    <p>Despejando el tiempo (<b>t</b>):</p>
+    <p style="background:#e0f7fa; padding:8px; border-radius:8px;">
+        t = √(2d/g) = √(2 × 20 / 9.81) ≈ <b>2.02 segundos</b> ⏲️
+    </p>
+    <p>¡Así que la pelota tarda aproximadamente <b>2 segundos</b> en tocar el suelo!</p>
+    <h2>📊 Gráfica de la Caída Libre</h2>
+    <p>Si dibujamos la posición de la pelota según el tiempo, veremos una <b>parábola</b> 🟣, porque la distancia aumenta cada vez más rápido.</p>
+    <p>¡Puedes usar simuladores o apps para ver cómo se mueve un objeto en caída libre!</p>
+    <h2>🎯 Conclusión</h2>
+    <p>La caída libre es una de las formas más sencillas de ver cómo actúa la gravedad. Entenderla te ayudará a comprender muchos otros fenómenos de la física. ¡La próxima vez que veas caer algo, recuerda que la gravedad está haciendo su trabajo! 🌟</p>
+
+    <button><a href="../Simulaciones/caida_libre.html" style="color:white; text-decoration:none;">🔬 Simular Caída Libre</a></button>
+    </div>
+    <div id="footer-placeholder"></div>
+</body>
+<style>
+    body {
+        font-family: "AR One Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight:400;
+        font-style: normal;
+        font-variation-settings:"ARRR" 10;
+        margin: 2%;
+        background: #f9f9fb;
+    }
+    .contenido {
+        margin: 5%;
+    }
+    h1 {
+        text-align: center;
+        
+    }
+    h1, h2{
+        color: #000000;
+    }
+    h2 {
+        margin-top: 28px;
+        font-size: 1.3em;
+    }
+    p {
+        margin: 10px 0;
+        font-size: 1.08em;
+    }
+    ul {
+        list-style-type: disc;
+        margin-left: 24px;
+        font-size: 1.05em;
+    }
+    li {
+        margin: 7px 0;
+    }
+     button {
+    background-color: #FFA500;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px auto;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    display: block;
+    }
+    button:hover {
+    background-color: #e67e22;
+    }
+</style>
+<script>
+    fetch('../header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+    fetch('../footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+</script>
+</html>

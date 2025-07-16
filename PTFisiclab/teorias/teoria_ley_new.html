@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400..700&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2da Ley de Newton</title>
+</head>
+<style>
+    body {
+        font-family: "AR One Sans", sans-serif;
+        background: #ffffff;
+        text-align: justify;
+        padding: 15px;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    button {
+        padding: 10px 15px;
+        background-color: #ffa500;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button a {
+        text-decoration: none;
+        color: white;
+    }
+</style>
+
+<body>
+    <div id="header-placeholder"></div>
+    <h2 style="text-align: center;">🚗 Simulación de la 2da Ley de Newton</h2>
+   
+    <section class="container">
+        <p>La segunda ley de Newton establece que la aceleración de un objeto es directamente proporcional a la fuerza neta que actúa sobre él e inversamente proporcional a su masa. Esta ley se expresa matemáticamente como:</p>
+        <p><strong>F = m * a</strong></p>
+        <p>donde:</p>
+        <ul>
+            <li><strong>F</strong> es la fuerza neta aplicada al objeto (en Newtons, N).</li>
+            <li><strong>m</strong> es la masa del objeto (en kilogramos, kg).</li>
+            <li><strong>a</strong> es la aceleración del objeto (en metros por segundo al cuadrado, m/s²).</li>
+        </ul>
+        <p>Esta ley implica que si se aplica una fuerza a un objeto, este experimentará una aceleración en la dirección de la fuerza. Cuanto mayor sea la masa del objeto, menor será su aceleración para una misma fuerza aplicada.</p>    
+        <p>En términos prácticos, la segunda ley de Newton nos permite calcular cómo se moverá un objeto cuando se le aplique una fuerza. Por ejemplo, si conocemos la masa de un objeto y la fuerza que se le aplica, podemos determinar su aceleración.</p>
+        <p>Esta ley es fundamental en la física y se aplica a una amplia variedad de situaciones, desde el movimiento de un automóvil hasta el lanzamiento de un cohete. Es una de las tres leyes del movimiento formuladas por Isaac Newton en el siglo XVII.</p>
+        <p>Para realizar cálculos con la segunda ley de Newton, es importante asegurarse de que las unidades sean consistentes. Por ejemplo, si la masa está en kilogramos y la fuerza en Newtons, la aceleración resultante estará en metros por segundo al cuadrado.</p>
+        <p>En resumen, la segunda ley de Newton nos proporciona una comprensión fundamental de cómo las fuerzas afectan el movimiento de los objetos y es esencial para el estudio de la mecánica clásica.</p>
+        <p>Para ver una simulación interactiva de la segunda ley de Newton, puedes hacer clic en el siguiente botón:</p>
+        <button><a href="../Simulaciones/ley_newton.html">Ver Simulación</a></button>
+    </section>
+    <div id="footer-placeholder"></div>
+</body>
+<script>
+    fetch('../header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+    fetch('../footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+</script>
+</html>

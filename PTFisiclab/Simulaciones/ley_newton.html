@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <title>2da Ley de Newton</title>
+  <style>
+    body {
+      font-family: "AR One Sans", sans-serif;
+      background: #ffffff;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f3f3f3;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #simulacion {
+      border: 3px solid #2d3436;
+      width: 600px;
+      height: 200px;
+      margin: 20px auto;
+      background: #dfe6e9;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .objeto {
+      width: 40px;
+      height: 40px;
+      background: #ff7675;
+      border-radius: 10px;
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+    }
+
+    .panel input, .panel select {
+      width: 80px;
+      padding: 4px;
+      margin: 4px;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 5px;
+      border: none;
+      border-radius: 10px;
+      background: #ffa500;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #e67e22;
+    }
+
+    pre {
+      text-align: left;
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ecf0f1;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <h2>🚗 Simulación de la 2da Ley de Newton</h2>
+
+  <div class="container">
+    <div class="panel">
+      <label>Masa (kg): <input type="number" id="masa" value="2"></label>
+      <label>Fuerza (N): <input type="number" id="fuerza" value="10"></label>
+      <label>Gravedad (m/s²): <input type="number" id="gravedad" value="9.8"></label>
+      <label>Superficie:
+        <select id="superficie">
+          <option value="0.1">Autopista</option>
+          <option value="0.01">Hielo</option>
+          <option value="0.5">Arena</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="panel">
+      <button onclick="agregarObjeto()">Iniciar</button>
+      <button onclick="reiniciar()">Reiniciar</button>
+    </div>
+
+    <div id="simulacion"></div>
+
+    <h3>📊 Datos en tiempo real:</h3>
+    <pre id="datos"></pre>
+
+    <h3>📈 Gráfica de velocidad vs tiempo</h3>
+    <canvas id="grafica" width="600" height="200"></canvas>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script>
+    const contenedor = document.getElementById("simulacion");
+    const superficieSelect = document.getElementById("superficie");
+    const datos = document.getElementById("datos");
+    const canvas = document.getElementById("grafica");
+    const ctx = canvas.getContext("2d");
+
+    const fondos = {
+      "0.1": "url('../imag/autopista.jpg')",
+      "0.01": "url('../imag/hielo.jpg')",
+      "0.5": "url('../imag/arena.jpg')"
+    };
+
+    // Al cargar la página, se asigna el fondo correspondiente
+    document.addEventListener("DOMContentLoaded", function () {
+      const valor = superficieSelect.value;
+      contenedor.style.backgroundImage = fondos[valor];
+      contenedor.style.backgroundSize = "cover";
+    });
+
+    // Cambiar fondo al seleccionar otra superficie
+    superficieSelect.addEventListener("change", function () {
+      const valor = superficieSelect.value;
+      contenedor.style.backgroundImage = fondos[valor];
+      contenedor.style.backgroundSize = "cover";
+    });
+
+    let objetos = [];
+    let intervalos = [];
+
+    function agregarObjeto() {
+      const m = parseFloat(document.getElementById("masa").value);
+      const f = parseFloat(document.getElementById("fuerza").value);
+      const g = parseFloat(document.getElementById("gravedad").value);
+      const friccion = parseFloat(superficieSelect.value);
+
+      if (m <= 0) {
+        alert("La masa debe ser mayor que cero.");
+        return;
+      }
+
+      const peso = m * g;
+      const fFriccion = friccion * peso;
+      const fNeta = f - fFriccion;
+      const a = fNeta / m;
+
+      const div = document.createElement("div");
+      div.className = "objeto";
+      div.style.background = getRandomColor();
+      const topOffset = 10 + objetos.length * 45;
+      div.style.bottom = topOffset + "px";
+      contenedor.appendChild(div);
+
+      const obj = {
+        div, m, f, g, friccion,
+        peso, fFriccion, fNeta, a,
+        v: 0,
+        x: 0,
+        t: 0,
+        dt: 0.1,
+        datos: [],
+        detenido: false
+      };
+
+      const intervalo = setInterval(() => {
+        if (obj.detenido) return;
+
+        obj.x += obj.v * obj.dt + 0.5 * obj.a * obj.dt ** 2;
+        obj.v += obj.a * obj.dt;
+        obj.t += obj.dt;
+
+        obj.div.style.left = obj.x + "px";
+        obj.datos.push({ t: obj.t, v: obj.v });
+
+        if (obj.x >= 560 || obj.fNeta <= 0) {
+          obj.detenido = true;
+          clearInterval(intervalo);
+        }
+
+        mostrarDatos();
+        dibujarGrafica();
+      }, 100);
+
+      objetos.push(obj);
+      intervalos.push(intervalo);
+    }
+
+    function mostrarDatos() {
+      datos.textContent = "";
+      objetos.forEach((obj, i) => {
+        datos.textContent += `🔹 Objeto ${i + 1} | m=${obj.m} kg, F=${obj.f} N, fricción=${obj.friccion}, g=${obj.g} m/s²\n`;
+        datos.textContent += `Peso = ${obj.peso.toFixed(2)} N, F_fricción = ${obj.fFriccion.toFixed(2)} N\n`;
+        datos.textContent += `F_neta = ${obj.fNeta.toFixed(2)} N, a = ${obj.a.toFixed(2)} m/s²\n`;
+        const d = obj.datos.slice(-1)[0];
+        if (d) datos.textContent += `t=${d.t.toFixed(1)}s | v=${d.v.toFixed(2)} m/s\n\n`;
+      });
+    }
+
+    function dibujarGrafica() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      objetos.forEach((obj) => {
+        ctx.strokeStyle = obj.div.style.background;
+        ctx.beginPath();
+        obj.datos.forEach((p, i) => {
+          const x = p.t * 40;
+          const y = canvas.height - p.v * 10;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+      });
+    }
+
+    function reiniciar() {
+      intervalos.forEach(i => clearInterval(i));
+      objetos.forEach(o => o.div.remove());
+      objetos = [];
+      intervalos = [];
+      datos.textContent = "";
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function getRandomColor() {
+      const colores = ["#e17055", "#74b9ff", "#55efc4", "#ffeaa7", "#a29bfe"];
+      return colores[Math.floor(Math.random() * colores.length)];
+    }
+
+    // Cargar header y footer externos (si existen)
+    fetch('../header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+
+    fetch('../footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+  </script>
+</body>
+</html>

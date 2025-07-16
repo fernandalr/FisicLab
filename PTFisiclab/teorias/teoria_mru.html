@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/imag/atomo.png">
+    <title>Movimiento Rectilíneo Uniforme | Teoría</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400..700&display=swap');
+    body{
+        font-family: "AR One Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight:400;
+        font-style: normal;
+        font-variation-settings:"ARRR" 10;
+        margin: 2%;
+        text-align: justify;
+        background: #ffffff;
+        margin: 0;
+        padding: 20px;
+    }
+    .titulo {
+        text-align: center;
+    }
+    button {
+        background-color: rgb(255, 166, 0);
+        color: white;
+        padding: 10px 20px;
+        margin: 10px auto;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        display: block;
+        cursor: pointer;
+    }
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    button:hover {
+        background-color: #e67e22;
+    }
+</style>
+<body>
+<div id="header-placeholder"></div>
+<h1 class="titulo">Movimiento Rectilíneo Uniforme (MRU)</h1>
+<p>El Movimiento Rectilíneo Uniforme (MRU) es un tipo de movimiento en el que un objeto se desplaza en línea recta con una velocidad constante. Esto significa que la velocidad no cambia con el tiempo, y por lo tanto, la aceleración es cero.</p>
+<p>En el MRU, la trayectoria del objeto es una línea recta y la velocidad es constante, lo que implica que el objeto recorre distancias iguales en intervalos de tiempo iguales. Este tipo de movimiento es idealizado y se utiliza como base para estudiar otros tipos de movimientos más complejos.</p>
+<p>Algunas características clave del MRU son:</p>
+<ul>
+    <li>La velocidad es constante y no cambia con el tiempo.</li>
+    <li>La aceleración es cero, ya que no hay cambio en la velocidad.</li>
+    <li>La trayectoria es una línea recta.</li>
+    <li>El desplazamiento es directamente proporcional al tiempo transcurrido.</li>
+</ul>
+<p>El MRU se puede observar en situaciones cotidianas, como un coche que viaja a una velocidad constante en una carretera recta, o un tren que se mueve a una velocidad uniforme en una vía recta. En estos casos, la distancia recorrida por el objeto es proporcional al tiempo que ha estado en movimiento.</p>
+<p>En el MRU, la distancia recorrida por el objeto es directamente proporcional al tiempo transcurrido. La relación entre la distancia (d), la velocidad (v) y el tiempo (t) se expresa mediante la fórmula:</p>
+<div style="text-align: center; font-weight: bold; font-size: 1.2em;"> 
+    <p><strong>d = v * t</strong></p>
+</div>
+<p>Donde:</p>
+<ul>
+    <li><strong>d</strong> es la distancia recorrida.</li>
+    <li><strong>v</strong> es la velocidad constante del objeto.</li>
+    <li><strong>t</strong> es el tiempo transcurrido.</li>
+</ul>
+<p>Esta fórmula es fundamental para calcular la distancia recorrida por un objeto en movimiento rectilíneo uniforme, y se aplica en diversas situaciones prácticas, como en la planificación de viajes o en el análisis de trayectorias de objetos en movimiento.</p>
+<p>Para visualizar y experimentar con el MRU, puedes utilizar la simulación interactiva que hemos preparado.</p>
+
+<button><a href="../Simulaciones/mru.html">Iniciar Simulación</a></button>
+
+<div id="footer-placeholder"></div>
+
+<script>
+        fetch('../header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+
+      fetch('../footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+    </script>
+</body>
+</html>

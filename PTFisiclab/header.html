@@ -1,0 +1,139 @@
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400..700&display=swap" rel="stylesheet">
+
+
+<header>
+    
+<h1><img src="/imag/atomo.png" alt="" style="width: 30px;"><a href="Inicio.php" style="text-decoration: none; color: #f3f3f3;">FisicLab</a></h1>
+    
+<nav>
+    <ul> 
+        <li><a href="/PTFisiclab/Inicio.php">Inicio</a></li>
+        <li><a href="/PTFisiclab/Teoria.html">Teoría</a></li>
+        <li class="dropdown">Laboratorio
+            <ul class="submenu">
+                <li><a href="/PTFisiclab/teorias/teoria_caida.html">Caida Libre</a></li>
+                <li><a href="/PTFisiclab/teorias/teoria_conduct.html">Conductividad Eléctrica</a></li>
+                <li><a href="/PTFisiclab/teorias/teoria_ley_gu.html">Ley de Gravitación Universal</a></li>
+                <li><a href="/PTFisiclab/teorias/teoria_ley_new.html">2da Ley de Newton</a></li>
+                <li><a href="/PTFisiclab/teorias/teoria_prin_arquimides.html">Principio de Arquímedes</a></li>
+                <li><a href="/PTFisiclab/teorias/teoria_mru.html">Movimiento Rectilineo Uniforme</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">Mis Tareas
+            <ul class="submenu">
+                <li><a href="/PTFisiclab/Alumno/ver_tareas_al.php">Ver tareas</a></li>
+                <li><a href="/PTFisiclab/Alumno/ver_mis_calificaciones.php">Ver calificaciones</a></li>
+            </ul>
+        </li>
+
+        <li><a href="/PTFisiclab/login.html"><img src="/PTFisiclab/imag/account_circle_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="" width="100%"> </a></li>
+    </ul>
+</nav>
+
+</header>
+
+<style> 
+body{
+  font-family: "AR One Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight:400;
+  font-style: normal;
+  font-variation-settings:"ARRR" 10;
+  margin: 2%;
+  
+}
+    header {
+    background-color: #12355B;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+/* Estilo para el submenú */
+nav ul li.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+nav ul li .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f3f3f3;
+    color: black;
+    padding: 0;
+    min-width: 250px;
+    z-index: 1;   
+}
+
+nav ul li .submenu li {
+    display: block;
+    margin: 0;
+    padding: 10px;
+    text-align: left;
+    
+}
+
+nav ul li .submenu li a {
+    color: rgb(12, 10, 10);
+    text-decoration: none;
+    display: block;
+    
+    
+}
+
+nav ul li.dropdown:hover .submenu {
+    display: block;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+}
+nav ul li:hover {
+    background-color: #ffa500;
+    color: white;
+    border-radius: 15px;
+}
+/*Fin del submenu*/
+
+
+/*Inicios nav*/
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+    padding: 10px;
+    border-radius: 15px;
+
+
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+
+}
+
+
+/*Fin del nav*/
+@media screen and (max-width: 768px) {
+    header{
+        font-size: 80%;
+    }
+    
+}
+
+</style>
+
+
+ 
+

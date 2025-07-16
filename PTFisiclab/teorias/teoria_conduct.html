@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../imag/atomo.png">
+    <title>Conductividad Eléctrica | Teoría</title>
+</head>
+<style>
+  .texto_conductividad{
+  padding: 40px;
+}
+#contenedor {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: justify;
+}
+
+#contenedor > div {
+  width: 50%;
+}
+button {
+  background-color: #FFA500;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  display: block;
+}
+button:hover {
+  background-color: #e67e22;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+  </style>
+<body>
+    <div id="header-placeholder"></div>
+
+    <section class="texto_conductividad">
+      <h1 style="text-align: center;">Conductividad Eléctrica</h1>
+      <p>¿Te has preguntado por qué algunos objetos como los cables pueden hacer funcionar un foco y otros, como una regla de plástico, no?
+      La conductividad eléctrica es la propiedad que tienen ciertos materiales para permitir el paso de la electricidad a través de ellos.</p>
+
+      <h3>⚡¿Qué es la electricidad?</h3>
+      <p>La electricidad es un flujo de electrones (partículas muy pequeñas con carga negativa) que se mueve a través de un material.
+      Este flujo se llama corriente eléctrica, y se representa con la letra I.</p>
+      <h3> 🌩️ ¿Qué es la conductividad eléctrica?</h3>
+      <p>La conductividad eléctrica es la capacidad que tiene un material para dejar pasar la electricidad. ¡Así como una manguera deja pasar el agua, algunos materiales dejan pasar la electricidad fácilmente!</p>
+
+      <h3>¿Cómo viaja la electricidad?</h3>
+      <p> La electricidad viaja a través de los electrones, que son unas partículas muy pequeñitas que se mueven dentro de los materiales.
+      👉 Si los electrones se pueden mover con facilidad, ¡la electricidad también puede moverse!</p>
+
+      <div id="contenedor">
+        <div>
+          <h4>Fundamento Científico</h4>
+          <p>Los átomos están hechos de:</p>
+          <ul>
+            <li><b>Electrones</b> (Carga negativa)</li>
+            <li><b>Protones</b> (Carga positiva)</li>
+            <li><b>Neutrones</b> (Sin carga)</li>
+          </ul>
+        </div>
+        <h4>Formula básica</h4>
+        <p>La relación entre la corriente eléctrica <b>(I)</b>, el voltaje <b>(V)</b> y la resistencia <b>(R)</b> se expresa con la <b>Ley de Ohm:</b></p>
+        
+        <div>
+
+        </div>
+      </div>
+    </section>
+    <section>
+      <button><a href="../Simulaciones/Simu_con2.html">Ir a Simulación</a></button>
+    </section>
+    
+    <div id="footer-placeholder"></div>
+
+
+</body>
+
+<script>
+    fetch('../header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+    fetch('../footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+
+  </script>
+  
+</html>

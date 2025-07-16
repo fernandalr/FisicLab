@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulación de Caída Libre</title>
+  <style>
+    body {
+      font-family: "Comic Sans MS", cursive;
+      background: #ffffff;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #010305;
+    }
+
+    #simulacion {
+      border: 4px solid #34495e;
+      width: 300px;
+      height: 400px;
+      position: relative;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .objeto {
+      width: 30px;
+      height: 30px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+      transition: bottom 0.05s;
+    }
+
+    #suelo {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: #2d3436;
+    }
+
+    .panel {
+      margin: 15px 0;
+    }
+
+    label, input {
+      margin: 4px;
+      font-size: 14px;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 3px;
+    }
+
+    button {
+      padding: 8px 14px;
+      margin: 5px;
+      font-size: 14px;
+      background-color: #0984e3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #74b9ff;
+    }
+
+    canvas {
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
+
+    #planeta-info {
+      font-size: 16px;
+      color: #34495e;
+      margin: 10px 0;
+    }
+
+    #peso-info {
+      font-size: 14px;
+      margin: 8px 0;
+      color: #2d3436;
+    }
+    .btn1 {
+      margin: 20px 0;
+    }
+    a{
+      text-decoration: none;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<h2>🌠 Simulación de Caída Libre Interactiva 🌠</h2>
+<div id="planeta-info">Planeta: 🌍 <strong>Tierra</strong></div>
+<div id="peso-info">Peso del objeto: 0 N</div>
+
+<div class="panel">
+  <label>Masa (kg): <input type="number" id="masa" value="2"></label>
+  <label>Altura (m): <input type="number" id="altura" value="20"></label>
+  <label>Gravedad (m/s²): <input type="number" id="gravedad" value="9.8"></label>
+  <label>Vel. inicial (m/s): <input type="number" id="vInicial" value="0"></label>
+  <label>Retraso (s): <input type="number" id="retraso" value="1"></label>
+</div>
+
+<div class="panel">
+  <button onclick="agregarObjeto()">Agregar objeto</button>
+  <button onclick="pausar()">⏸️ Pausar</button>
+  <button onclick="reiniciar()">♻️ Reiniciar</button>
+</div>
+
+<div class="panel">
+  <button onclick="cambiarPlaneta('tierra')">🌍 Tierra</button>
+  <button onclick="cambiarPlaneta('luna')">🌙 Luna</button>
+  <button onclick="cambiarPlaneta('marte')">🔴 Marte</button>
+</div>
+
+<div id="simulacion">
+  <div id="suelo"></div>
+</div>
+
+<h3>Datos:</h3>
+<pre id="datos"></pre>
+
+<h3>📉 Gráfica posición vs tiempo</h3>
+<canvas id="grafica" width="300" height="200"></canvas>
+<div class="btn1">
+  <button><a href="/teoria_caida.html">Regresar a teoría</a></button>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+  const contenedor = document.getElementById("simulacion");
+  const datos = document.getElementById("datos");
+  const canvas = document.getElementById("grafica");
+  const ctx = canvas.getContext("2d");
+  const planetaInfo = document.getElementById("planeta-info");
+  const pesoInfo = document.getElementById("peso-info");
+
+  const pxPorMetro = 15;
+  let objetos = [];
+  let intervalos = [];
+  let pausado = false;
+  let planetaActual = "tierra";
+
+  const fondos = {
+    tierra: "url('../imag/tierra.jpg')",
+    luna: "url('../imag/luna.jpg')",
+    marte: "url('../imag/marte.jpg')"
+  };
+
+  const gravedades = {
+    tierra: 9.8,
+    luna: 1.6,
+    marte: 3.7
+  };
+
+  function agregarObjeto() {
+    const h = parseFloat(document.getElementById("altura").value);
+    const g = parseFloat(document.getElementById("gravedad").value);
+    const v0 = parseFloat(document.getElementById("vInicial").value);
+    const retraso = parseFloat(document.getElementById("retraso").value);
+
+    if (isNaN(h) || isNaN(g) || isNaN(v0) || isNaN(retraso) || h <= 0) {
+      alert("Introduce valores válidos. Altura debe ser mayor a 0.");
+      return;
+    }
+
+    const bola = crearObjeto(h);
+    contenedor.appendChild(bola);
+
+    const obj = {
+      div: bola,
+      h, g, v0,
+      tiempo: 0,
+      dt: 0.1,
+      y: h,
+      datos: [],
+      terminado: false
+    };
+
+    bola.style.bottom = (h * pxPorMetro) + "px";
+
+    setTimeout(() => iniciarCaida(obj), retraso * 1000);
+    objetos.push(obj);
+  }
+
+  function crearObjeto() {
+    const bola = document.createElement("div");
+    bola.className = "objeto";
+    bola.style.background = getRandomColor();
+    bola.style.left = Math.floor(Math.random() * 250) + "px";
+    return bola;
+  }
+
+  function iniciarCaida(obj) {
+    const intervalo = setInterval(() => {
+      if (pausado || obj.terminado) {
+        clearInterval(intervalo);
+        return;
+      }
+      actualizarPosicion(obj);
+      mostrarDatos();
+      dibujarGrafica();
+    }, 100);
+    intervalos.push(intervalo);
+  }
+
+  function actualizarPosicion(obj) {
+    const { tiempo, g, h, v0 } = obj;
+    const y = h + v0 * tiempo - 0.5 * g * tiempo * tiempo;
+
+    if (y <= 0) {
+      obj.y = 0;
+      obj.div.style.bottom = "0px";
+      obj.datos.push({ t: tiempo, y: 0 });
+      obj.terminado = true;
+      rebote(obj.div); // efecto opcional
+      return;
+    }
+
+    obj.y = y;
+    obj.div.style.bottom = (y * pxPorMetro) + "px";
+    obj.datos.push({ t: tiempo, y });
+    obj.tiempo += obj.dt;
+  }
+
+  function mostrarDatos() {
+    datos.textContent = objetos.map((obj, i) => {
+      return `🟡 Objeto ${i + 1}:\n` + obj.datos.map(d => `t=${d.t.toFixed(1)}s | y=${d.y.toFixed(2)}m`).join("\n") + "\n";
+    }).join("\n");
+  }
+
+  function dibujarGrafica() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    objetos.forEach((obj) => {
+      ctx.strokeStyle = obj.div.style.background;
+      ctx.beginPath();
+      obj.datos.forEach((p, index) => {
+        const x = p.t * 15;
+        const y = canvas.height - p.y * 5;
+        index === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    });
+  }
+
+  function pausar() {
+    pausado = !pausado;
+  }
+
+  function reiniciar() {
+    intervalos.forEach(i => clearInterval(i));
+    objetos.forEach(o => o.div.remove());
+    objetos = [];
+    intervalos = [];
+    datos.textContent = "";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pausado = false;
+  }
+
+  function cambiarPlaneta(planeta) {
+    planetaActual = planeta;
+    contenedor.style.backgroundImage = fondos[planeta];
+    document.getElementById("gravedad").value = gravedades[planeta];
+    planetaInfo.innerHTML = `Planeta: <strong>${getNombrePlaneta(planeta)}</strong>`;
+    calcularPeso();
+  }
+
+  function getNombrePlaneta(planeta) {
+    const nombres = {
+      tierra: "🌍 Tierra",
+      luna: "🌙 Luna",
+      marte: "🔴 Marte"
+    };
+    return nombres[planeta];
+  }
+
+  function calcularPeso() {
+    const masa = parseFloat(document.getElementById("masa").value);
+    const gravedad = parseFloat(document.getElementById("gravedad").value);
+    const peso = masa * gravedad;
+    pesoInfo.textContent = `Peso del objeto: ${peso.toFixed(2)} N`;
+  }
+
+  function getRandomColor() {
+    const colores = ["#e74c3c", "#f1c40f", "#8e44ad", "#3498db", "#2ecc71"];
+    return colores[Math.floor(Math.random() * colores.length)];
+  }
+
+  function rebote(elemento) {
+    elemento.animate([
+      { transform: 'translateY(0px)' },
+      { transform: 'translateY(-15px)' },
+      { transform: 'translateY(0px)' }
+    ], {
+      duration: 400,
+      iterations: 1
+    });
+  }
+
+  document.getElementById("masa").addEventListener("input", calcularPeso);
+
+  // Cargar fondo inicial
+  cambiarPlaneta("tierra");
+
+  fetch('header2.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+
+      fetch('footer2.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+</script>
+
+</body>
+</html>

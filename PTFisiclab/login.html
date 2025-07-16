@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="estilos_ini.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <title>Inicio y registro</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'AR One Sans', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      width: 100%;
+      background: #12355B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.8em;
+    }
+
+    .container {
+      max-width: 360px;
+      width: 100%;
+      background: #fff;
+      border-radius: 7px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+      padding: 1.5rem;
+    }
+
+    #check {
+      display: none;
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
+    }
+
+    .form header {
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 0.9rem;
+    }
+
+    .input-group input,
+    .form input,
+    .form select {
+      height: 45px;
+      width: 100%;
+      padding: 0 10px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    .form input:focus,
+    .form select:focus {
+      box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    }
+
+    .form select {
+      background-color: white;
+    }
+
+    .form a {
+      font-size: 14px;
+      color: #FFA500;
+      text-decoration: none;
+    }
+
+    .form a:hover {
+      text-decoration: underline;
+    }
+
+    .form input.button {
+      color: #fff;
+      background: #12355B;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+
+    .form input.button:hover {
+      background: #FFA500;
+    }
+
+    .signup {
+      font-size: 14px;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .signup label {
+      color: #FFA500;
+      cursor: pointer;
+    }
+
+    .signup label:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 400px) {
+      .input-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <input type="checkbox" id="check" onchange="toggleForms()">
+
+    <!-- Login -->
+    <div class="form login active">
+      <header>Ingresar</header>
+      <form action="login_conexion.php" method="POST" onsubmit="return validarLogin()">
+        <input type="text" name="loginEmail" id="loginEmail" placeholder="Correo" required style="margin-bottom: 10px;">
+        <span id="loginError" class="error"></span>
+        <input type="password" name="loginPassword" id="loginPassword" placeholder="Contraseña" required style="margin-bottom: 10px;">
+        <a href="#">¿Olvidaste la contraseña?</a>
+        <input type="submit" class="button" value="Ingresar">
+      </form>
+      <div class="signup">
+        ¿No tienes cuenta? <label for="check">Regístrate</label>
+      </div>
+    </div>
+
+
+    <!-- Registro -->
+    <div class="form registration">
+      <header style="text-align: center; margin-bottom: 10%;">Registro</header>
+      <form action="login_conexion.php" method="POST" onsubmit="return validarRegistro()">
+        <div class="input-group">
+          <input type="text" name="registroNombre" id="registroNombre" placeholder="Nombre" required>
+        </div>
+        <div class="input-group">
+          <input type="text" name="registroApellidoM" id="registroApellidoM" placeholder="Apellido Materno" required>
+          <input type="text" name="registroApellidoP" id="registroApellidoP" placeholder="Apellido Paterno" required>
+        </div>
+        <div class="input-group">
+          <input type="text" name="registroEmail" id="registroEmail" placeholder="Email" required>
+        </div>
+        <select name="registroTipo" id="registroTipo" required style="margin-bottom: 10px;">
+          <option value="" disabled selected>Selecciona tipo de usuario</option>
+          <option value="alumno">Alumno</option>
+          <option value="maestro">Maestro</option>
+        </select>
+        <span id="registroError" class="error""></span>
+        <input type="password" name="password" id="registroPassword" placeholder="Contraseña" required style="margin-bottom: 10px;">
+        <input type="password" name="confirm_password" id="confirmPassword" placeholder="Confirmar contraseña" required style="margin-bottom: 10px;">
+        <input type="submit" class="button" value="Registrar">
+      </form>
+      <div class="signup">
+        ¿Ya tienes cuenta? <label for="check">Ingresar</label>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function validarRegistro() {
+  const email = document.getElementById("registroEmail").value;
+  const tipo = document.getElementById("registroTipo").value;
+  const password = document.getElementById("registroPassword").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+  const error = document.getElementById("registroError");
+
+  if (!esEmailValido(email)) {
+    error.textContent = "❌ Correo inválido.";
+    return false;
+  }
+
+  if (!tipo) {
+    error.textContent = "❌ Selecciona el tipo de usuario.";
+    return false;
+  }
+
+  if (password !== confirmPassword) {
+    error.textContent = "❌ Las contraseñas no coinciden.";
+    return false;
+  }
+
+  error.textContent = "";
+  return true;
+}
+
+function toggleForms() {
+  const isChecked = document.getElementById("check").checked;
+  const loginForm = document.querySelector(".form.login");
+  const registerForm = document.querySelector(".form.registration");
+
+  if (isChecked) {
+    loginForm.classList.remove("active");
+    registerForm.classList.add("active");
+  } else {
+    loginForm.classList.add("active");
+    registerForm.classList.remove("active");
+  }
+}
+function validarLogin() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;  
+  const error = document.getElementById("loginError");
+
+  if (!esEmailValido(email)) {
+    error.textContent = "❌ Correo inválido.";
+    return false;
+  }
+
+  if (!password) {
+    error.textContent = "❌ Ingresa tu contraseña.";
+    return false;
+  }
+
+  error.textContent = "";
+  return true;
+}
+</script>
+</body>
+</html>

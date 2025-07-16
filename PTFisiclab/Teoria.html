@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/imag/atomo.png">
+    <title>Teoría</title>
+</head>
+
+<style>
+    .texto_teo{
+        text-align: justify;
+        margin: 5%;
+    }
+    .parent {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1px;
+    justify-items: center;
+    
+    }
+    
+    .div4 {grid-row-start: 2; justify-items: center;}
+    .div5 {grid-row-start: 2; justify-items: center;}
+    .div6 {grid-row-start: 2; justify-items: center;}
+
+    .subtemas{
+        text-align: center;
+    }
+
+</style>
+<body>
+    <div id="header-placeholder"></div>
+
+    <h1 style="text-align: center;">Teoría</h1>
+    <section class="texto_teo">
+    <p>
+        Antes de experimentar en el laboratorio, es fundamental comprender los conceptos que dan sentido a cada fenómeno físico. En esta sección encontrarás explicaciones claras y accesibles sobre los temas que se abordan en FisicLab.
+
+        La física es la ciencia que estudia cómo funciona el mundo que nos rodea: el movimiento de los cuerpos, la acción de las fuerzas, la presión de los fluidos, la electricidad y mucho más. Para entender estos fenómenos y poder aplicarlos en situaciones reales, es necesario conocer las leyes y principios que los explican.
+        Aquí podrás:
+
+        <ul>
+            <li>Estudiar los fundamentos teóricos de cada simulación disponible en el laboratorio.</li>
+            <li>Conocer los conceptos clave, fórmulas y ejemplos aplicados.
+            </li>
+            <li>Relacionar la teoría con la práctica a través de explicaciones visuales y lenguaje sencillo.</li>
+        </ul>
+
+        La teoría no se trata solo de memorizar fórmulas, sino de entender cómo y por qué ocurren las cosas. Por eso, esta sección ha sido diseñada para acompañarte paso a paso en el proceso de aprendizaje, y para que puedas sacar el máximo provecho de las simulaciones interactivas.
+    </p>
+    <p>
+        A continuación, selecciona un tema que más te interese y empieza a divertirte aprendiendo
+    </p>
+
+    </section>
+    <section class="botones">
+        <div class="parent">
+        
+            <div class="div1">
+            <a href="teorias/teoria_caida.html"><img src="imag/caidalibre.png" alt="" width="150px"></a>
+            <p class="subtemas">Caída Libre</p>
+            </div>
+
+            <div class="div2">
+                <a href="teorias/teoria_conduct.html"><img src="/PTFisiclab/imag/circuito-electrico.png" alt="" width="150px"></a>
+                <p class="subtemas">Conductividad Eléctrica</p>
+            </div>
+
+            <div class="div3">
+                <a href="teorias/teoria_ley_gu.html"><img src="/PTFisiclab/imag/gravedad.png" alt="" width="150px"></a>
+                <p class="subtemas">Ley de Gravitación Universal</p>
+            </div>
+        
+            <div class="div4">
+                <a href="teorias/teoria_ley_new.html"><img src="/PTFisiclab/imag/acceleracion.png" alt="" width="150px"></a>
+                <p class="subtemas">2da Ley de Newton</p>
+            </div>
+
+            <div class="div5">
+                <a href="teorias/teoria_prin_arquimides.html"><img src="/PTFisiclab/imag/presion.png" alt="" width="150px"></a>
+                <p class="subtemas">Principio de Arquímedes</p>
+            </div>
+
+            <div class="div6">
+                <a href="teorias/teoria_mru.html"><img src="/PTFisiclab/imag/ciencia.png" alt="" width="150px"></a>
+                <p class="subtemas">Movimiento Rectilíneo Uniforme</p>
+            </div>
+        </div>
+    </section>
+
+<div id="footer-placeholder"></div>
+    
+</body>
+<script>
+    fetch('header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+    fetch('footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+  </script>
+</html>

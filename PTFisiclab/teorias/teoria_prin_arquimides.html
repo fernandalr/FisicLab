@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/imag/atomo.png">
+    <title>Principio de Arquímedes | Teoría</title>
+</head>
+<body>
+    <style>
+      body {
+        text-align: justify;
+      }
+      button {
+      background-color: #FFA500;
+      color: white;
+      padding: 10px 20px;
+      margin: 10px auto;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      display: block;
+    }
+    button:hover {
+      background-color: #e67e22;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    </style>
+
+    <div id="header-placeholder"></div>
+
+    <h1>Principio de Arquímedes</h1>
+    <h2>Descripción</h2>
+    <p>El principio de Arquímedes establece que cualquier cuerpo sumergido total o parcialmente en un fluido experimenta una fuerza de flotación hacia arriba igual al peso del fluido desplazado por el cuerpo.</p>
+    <h2>Fórmula</h2>
+    <p>La fuerza de flotación (F_b) se calcula con la siguiente fórmula
+    <p>F_b = ρ * g * V</p>
+    <p>donde:</p>
+      
+    <ul>
+        <li>F_b = Fuerza de flotación</li>
+        <li>ρ = Densidad del fluido</li>
+        <li>g = Aceleración debida a la gravedad</li>
+        <li>V = Volumen del fluido desplazado</li>
+    </ul>
+    <h2>Ejemplo</h2>
+    <p>Si un objeto de 2 kg se sumerge en agua (densidad = 1000 kg/m³), la fuerza de flotación es:</p>
+    <p>F_b = 1000 kg/m³ * 9.81 m/s² * V</p>
+    <p>Si el volumen del objeto es 0.002 m³, entonces:</p>
+    <p>F_b = 1000 * 9.81 * 0.002 = 19.62 N</p>
+    <h2>Aplicaciones</h2>
+    <p>El principio de Arquímedes se aplica en diversas áreas, como la navegación, la ingeniería naval, y la física de fluidos. Es fundamental para entender el comportamiento de los objetos en fluidos y es utilizado en el diseño de barcos, submarinos y otros vehículos acuáticos.</p>
+
+    <button><a href="../Simulaciones/arquimedes.html">Iniciar Simulación</a></button>
+    <div id="footer-placeholder"></div>
+
+    <script>
+        fetch('../header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      });
+
+      fetch('../footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+    </script>
+    
+</body>
+</html>
